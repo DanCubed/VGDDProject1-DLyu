@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public AudioSource hpAudio;
+    public AudioSource atkAudio;
+
     #region Editor Variables
     [SerializeField]
     [Tooltip("How fast the player should move.")]
@@ -181,6 +184,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 offset = transform.forward * attack.Offset.z + transform.right * attack.Offset.x + transform.up * attack.Offset.y;
         GameObject go = Instantiate(attack.AbilityGO, transform.position + offset, cc_Rb.rotation);
+        atkAudio.Play();
         go.GetComponent<Ability>().Use(transform.position + offset);
 
 
@@ -210,6 +214,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("HealthPill"))
         {
+            hpAudio.Play();
             IncreaseHealth(other.GetComponent<HealthPill>().HealthGain);
             Destroy(other.gameObject);
         }
